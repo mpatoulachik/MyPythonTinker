@@ -3,15 +3,15 @@
 
 
 
-# params = '-outfile ./mytest.gcode'
+#Syntax to pass to the mid2cnc script: params = '-outfile ./mytest.gcode'
 # os.system ('python -i mid2cnc.py ' + params)
 
 import os
 import easygui as eg
 params = '' #initializing variable
 
-
-machine = eg.choicebox(msg='Machine type', title='Pick machine', choices=("Ultimaker","Cupcake"))
+machinelist = ('ultimaker', 'cupcake', 'thingomatic', 'shapercube', 'custom')
+machine = eg.choicebox(msg='Machine type', title='Pick machine', choices=machinelist)
 print machine
 
 params = params + '-machine ' + machine
@@ -24,8 +24,13 @@ outfile = eg.filesavebox(msg='Choose the output file ', title=' Pick where you w
 print outfile
 params = params + " -outfile " + outfile
 
+verbose = eg.boolbox(msg='Do you want the verbose to be activated (for debug)', title=' Verbose Y/N ', choices=('No', 'Yes'), image=None) # returns true if the first is chosen
+if verbose == 0:
+	 params = params + " -verbose"
 print params
 
 
 #TODO:
 # Enforce .gcode at the end of outfile
+# handle cases where nothing is entered
+# Also why is filesavebox appearing in the background ?
